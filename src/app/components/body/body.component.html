@@ -1,17 +1,48 @@
+<div class="col-12 col-lg-12 col-md-12">
+  <div class="row" style="background-color: rgb(179, 174, 174);">
+    <div class="col-md-2 text-center"><span class="h4" style="color: blue;">Tasks Details</span></div>
+    <div class="col-md-10 text-right"> <button class="btn btn-success" [routerLink]="'add'"><i class="fa fa-database"></i> Add new</button></div>
+  </div>
+</div>
 <div>
   <div class="row">
     <div class="col-md-12 col-lg-12">
-      <p class="text-center"><button class="btn btn-primary">Add new +</button></p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12 col-lg-12">
-      <app-task-item
-      *ngFor="let task of tasks"
-      [task]="task"
-      ></app-task-item>
+      <mat-table [dataSource]="dataSource" style="width: 100%;">
+        <ng-container matColumnDef="QuoteType">
+          <th class="th-center width" mat-header-cell *matHeaderCellDef> Quote Type </th>
+          <td class="th-center width" mat-cell *matCellDef="let element"> {{element.QuoteType}} </td>
+        </ng-container>
+        <ng-container matColumnDef="QuoteID">
+          <th class="th-center width" mat-header-cell *matHeaderCellDef> Quote </th>
+          <td class="th-center width" mat-cell *matCellDef="let element"> <a [routerLink]="['edit',element.QuoteID]">{{element.QuoteID}}</a> </td>
+        </ng-container>
+        <ng-container matColumnDef="Task">
+          <th class="th-center width" mat-header-cell *matHeaderCellDef> Tasks </th>
+          <td class="th-center width" mat-cell *matCellDef="let element"> {{element.Task}} </td>
+        </ng-container>
+        <ng-container matColumnDef="ContactPerson">
+          <th class="th-center width" mat-header-cell *matHeaderCellDef> Contact Person </th>
+          <td class="th-center width" mat-cell *matCellDef="let element"> {{element.ContactPerson}} </td>
+        </ng-container>
+        <ng-container matColumnDef="DueDate">
+          <th class="th-center width" mat-header-cell *matHeaderCellDef> Due Date </th>
+          <td class="th-center width" mat-cell *matCellDef="let element"> {{element.DueDate}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="TaskType">
+          <th class="th-center width" mat-header-cell *matHeaderCellDef> Task Type </th>
+          <td class="th-center width" mat-cell *matCellDef="let element"> {{element.TaskType}} </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th class="th-center width" mat-header-cell *matHeaderCellDef> Actions </th>
+          <td class="th-center width" mat-cell *matCellDef="let element">  
+            <i class="fa fa-eye"></i> &nbsp; <i [routerLink]="['edit',element.QuoteID]" class="fa fa-edit"></i> &nbsp; 
+            <i class="fa fa-trash" mat-button (click)="openDialog(element)"></i> </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" [ngClass]="'top'"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </mat-table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </div>
   </div>
 </div>
-
-

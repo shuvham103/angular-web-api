@@ -1,9 +1,21 @@
 export class Tasks{
-  QuoteId?:number|string;
+  QuoteID:number|string;
   QuoteType?:string;
   ContactPerson?:string;
   Task?:string;
-  DueDate?:Date|string;
+  DueDate:Date|string;
   TaskType?:string;
-  Message?:string;
+  Open?:Boolean|string;
+  constructor(DueDate:Date|string,QuoteID:number|string){
+    this.QuoteID=QuoteID;
+    this.DueDate=DueDate;
+  }
+  
+}
+
+export class Task{
+  Quote:Tasks
+  constructor(task:Tasks){
+    this.Quote=task;
+  }
 }

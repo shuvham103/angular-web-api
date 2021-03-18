@@ -2,3 +2,20 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.close.mat-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+    line-height: 14px;
+    min-width: auto;
+  }
+
+
+  .mat-dialog-content{
+    margin-top: -24px !important;
+    padding: 10px;
+    background-color: blue;
+    color: azure !important;
+    height: 1.5em;
+  }

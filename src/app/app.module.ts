@@ -6,7 +6,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { BodyComponent } from './components/body/body.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { AddComponent } from './components/pages/add/add.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ErrorComponent } from './components/error/error.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,6 +22,12 @@ import { MatCardModule } from "@angular/material/card";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ViewComponent } from './components/pages/view/view.component'; 
 import {MatFormFieldModule  } from "@angular/material/form-field";
+import { RegisterComponent } from './components/pages/register/register.component';
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { TimepickerModule } from "ngx-bootstrap/timepicker";
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { NgxPaginationModule } from "ngx-pagination";
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -33,7 +39,8 @@ import {MatFormFieldModule  } from "@angular/material/form-field";
     ErrorComponent,
     DialoguesComponent,
     LoginComponent,
-    ViewComponent
+    ViewComponent,
+    RegisterComponent
   ],
   imports: [
     MatFormFieldModule,
@@ -45,10 +52,17 @@ import {MatFormFieldModule  } from "@angular/material/form-field";
     MatPaginatorModule,
     MatTableModule,
     CdkTableModule,
-    MatDialogModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    MatInputModule
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSnackBarModule,
+    MatDialogModule,
+    TimepickerModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    NgxPaginationModule,
+    MatSortModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],

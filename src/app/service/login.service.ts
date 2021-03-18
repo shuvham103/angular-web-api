@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { stringify } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User } from '../models/User';
+import { Register, User } from '../models/User';
 
 const httpOptions={
   headers:new HttpHeaders({
@@ -18,10 +18,16 @@ export class LoginService {
     
   }
   loginUrl:string = 'https://localhost:44339/token';
+  SignupUrl:string='https://localhost:44339/api/Account/Register';
 
   Authenticate(user:User):Observable<any> {
     let abc="grant_type="+user.grant_type+"&username="+user.Username+"&password="+user.password;
     return this.http.post(this.loginUrl,abc);
+  }
+
+
+  Register(user:Register){
+    return this.http.post(this.SignupUrl,user);
   }
 
 }

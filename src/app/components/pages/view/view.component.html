@@ -1,1 +1,28 @@
-<p>view works!</p>
+<mat-dialog-content class="h3">
+    <button mat-button class="close" mat-dialog-close><i class="fa fa-times"></i></button> View Data
+</mat-dialog-content>
+    <mat-card>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-center">Name</th>
+                    <th scope="col">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of task | keyvalue">
+                    <td scope="row" class="text-center"> {{item.key}} </td> 
+                     <td>{{item.value}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-card>
+    
+
+<mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close class="btn btn-danger">
+        <i class="fa fa-times"></i> Close
+    </button>
+  </mat-dialog-actions>
+
+

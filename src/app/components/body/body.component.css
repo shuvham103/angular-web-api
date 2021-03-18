@@ -10,6 +10,9 @@
 .width{
     width: 1%;
 }
+.width-big{
+    width: 2%;
+}
 
 .mat-header-cell{
     font-weight: bolder;

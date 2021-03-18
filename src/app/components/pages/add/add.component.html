@@ -1,51 +1,108 @@
-<div>
+<mat-dialog-content class="bg-geat h3">{{buttonQuote}} Task
+  <button mat-button class="close" mat-dialog-close><i class="fa fa-times"></i></button>
+</mat-dialog-content>
+
+<mat-card>
+<div> 
+  <h1></h1>
   <div class="row">
-    <div class="col-md-12 col-lg-12">
-      <h1 class="text-center"> {{buttonQuote}} Data</h1>
-    </div>
-  </div>
-  <div class="row text-center">
-    <div class="col">
-      <button class="btn btn-primary" [routerLink]="''"> <-Go Back</button>
-    </div>
-    <div class="col">
-      <button class="btn btn-danger" *ngIf="this.hidden" (click)="openDialog(tasks)"><-Delete-></button>
-    </div>
-    <div class="col">
-      <button class="btn btn-success" (click)="addEdit(tasks,buttonQuote)">{{buttonQuote}} -></button>
-    </div>
-  </div>
-  <div class="row">
-    <table class="table text-center">
+    <table class="table table-borderless" style="width: 100%;">
       <tr>
-        <th>Info</th>
-        <th>Value</th>
+        <td class="text-center font-weight-bold">Status </td>
+        <td>
+            <select [(ngModel)]=tasks.Open class="form-control form-select col-6">
+              <option value="{{tasks.Open}}"><span *ngIf=tasks.Open>Open</span><span *ngIf=!tasks.Open>Closed</span></option>
+              <option value="{{!tasks.Open}}"><span *ngIf=!tasks.Open>Open</span><span *ngIf=tasks.Open>Closed</span></option>
+            </select>
+          
+      </td>
       </tr>
       <tr>
-        <td>ID: </td>
-        <td><input type="text" value="{{tasks.QuoteID}}" class="form-control text-center col-6" disabled></td>
+        <td class="text-center font-weight-bold">Quote Type </td>
+        <td>
+          <div class="row">
+            <div class="col-5">
+              <input type="text" [(ngModel)]="tasks.QuoteType" class="form-control">
+          </div>
+          <div class="col-2 text-center">
+              <label class="text-center font-weight-bold">Quote Num</label>
+          </div>
+          <div class="col-2">
+              <input type="text" value={{tasks.QuoteID}}  disabled class="text-center form-control">
+            
+          </div>  
+          </div>
+          
+        </td>
       </tr>
       <tr>
-        <td>Quote Type: </td>
-        <td><input type="text" [(ngModel)]="tasks.QuoteType" class="form-control text-center col-6"></td>
+        <td class="text-center font-weight-bold">Task Type </td>
+        <td><input type="text" [(ngModel)]="tasks.TaskType" class="form-control col-6"></td>
       </tr>
       <tr>
-        <td>Contact: </td>
-        <td><input type="text" [(ngModel)]="tasks.ContactPerson" class="form-control text-center col-6"></td>
+        <td class="text-center font-weight-bold">Contact Name </td>
+        <td><input type="text" [(ngModel)]="tasks.ContactPerson" class="form-control col-6"></td>
       </tr>
       <tr>
-        <td>Task: </td>
-        <td><input type="text" [(ngModel)]="tasks.Task" class="form-control text-center col-6"></td>
-      </tr>
-      <tr>
-        <td>Due Date: </td>
-        <td><input type="date"  [ngModel]="tasks.DueDate| date:'yyyy-MM-dd'" 
-          (ngModelChange)="tasks.DueDate= $event" required class="form-control text-center col-6"/></td>
-      </tr>
-      <tr>
-        <td>Task Type: </td>
-        <td><input type="text" [(ngModel)]="tasks.TaskType" class="form-control text-center col-6"></td>
+        <td class="text-center font-weight-bold">Quote </td>
+        <td><input type="text" [(ngModel)]="tasks.Task" class="form-control col-6"></td>
       </tr>
     </table>
   </div>
+      
+    <div class="row">
+      <div class="col-md-2 col-lg-2 text-center">
+       <span class="font-weight-bold text-center">  Date</span>
+      </div>
+      <div class="col-md-4">
+        <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker [(ngModel)]="tasks.DueDate">
+      </div>
+      <div class="col-2 text-center">
+          <label class="text-center font-weight-bold">Time</label>
+      </div>
+      <div class="col-2">
+        <timepicker [(ngModel)]="tasks.DueDate" style="float: inline-start;"></timepicker>
+      </div>  
+    </div>
+
+    <div class="row">
+
+    <table class="table table-borderless" style="width: 100%;">
+      <tr>
+        <td>
+           
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="font-weight-bold" style="padding-left: 30px;">Task Description</td>
+        <td>
+           
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2 text-center">
+
+          <div class="col-12">
+            <textarea class="form-control col-12" rows="3" [(ngModel)]="tasks.Description" maxlength="1000"></textarea>
+          </div>
+          
+        </td>
+      </tr>
+      
+    </table>
+  </div>
+
+    <div class="text-right col-12">{{1000-descLength()}} left</div>
 </div>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close class="btn btn-danger" *ngIf="this.hidden" (click)="openDialog()">Delete</button> &nbsp;
+  <button mat-button mat-dialog-close class="btn btn-success" (click)="addEdit(tasks,buttonQuote)"><i class="fa fa-save"></i> {{buttonQuote}}</button> &nbsp;
+  <button mat-button mat-dialog-close class="btn btn-danger"><i class="fa fa-times"></i> Cancel</button>
+</mat-dialog-actions>
+</mat-card>

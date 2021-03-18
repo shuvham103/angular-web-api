@@ -1,12 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { Tasks } from 'src/app/models/Tasks';
 import { TaskService } from 'src/app/service/task.service';
-import {FormsModule} from '@angular/forms';
-import { Router,ActivatedRoute } from '@angular/router';
-import { DatePipe } from '@angular/common';
-import { DialoguesComponent } from '../dialogues/dialogues.component';
-import { MatDialog } from '@angular/material/dialog';
-import { HttpErrorResponse } from '@angular/common/http';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDatepicker } from "@angular/material/datepicker";
 
 @Component({
   selector: 'app-add',
@@ -15,20 +11,34 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AddComponent implements OnInit {
   tasks!:Tasks;
-  id?:number|string;
   buttonQuote:string="Add";
-  dates:Date|string|null=null;
+  today = new Date();
+  dates:Date|string=new Date()
   hidden:boolean=false;
-  constructor(private taskService:TaskService,private route:ActivatedRoute,private router: Router, public dialog: MatDialog) { }
+  constructor(
+    public dialogRefs:MatDialogRef<AddComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public id:string|undefined,
+    private taskService:TaskService,
+     
+    public dialog: MatDialog
+    ) { }
   
+
+    descLength():number{
+      if(this.tasks.Description==null){
+        return 0;
+      }
+      else{
+        return this.tasks.Description.length;
+      }
+    }
   ngOnInit(): void {
-    this.route.params.subscribe( params => this.id=params["id"]);
     if (this.id===undefined){
       this.buttonQuote="Add"
       this.hidden=false;
     }
     else{
-      this.buttonQuote="Edit"
+      this.buttonQuote="Update"
       this.hidden=true;
     }
 
@@ -36,15 +46,17 @@ export class AddComponent implements OnInit {
     subscribe(
     (suc)=>
       {
-        
         this.tasks=suc.Quote;
-        this.dates=new Date(this.tasks.DueDate);
-        console.log(this.dates)
+
+        this.tasks.DueDate=new Date(this.tasks.DueDate);
+        console.log(this.tasks.DueDate);
+        
         console.log(suc.Quote);
+      
       },
     (err)=>
     {
-      this.handleError(err);
+      this.taskService.handleError(err)
     },
     ()=>
     {
@@ -54,65 +66,56 @@ export class AddComponent implements OnInit {
   }
 
   addEdit(task:Tasks,act:string){
-    if (act==="Edit"){
+    if (act==="Update"){
       console.log(task);
+      debugger
       this.taskService.editTask(task,task.QuoteID.toString()).subscribe(
         (suc)=>{
-          console.log(suc);
-          this.router.navigate(['']);
+          this.id=undefined;
+          this.dialogRefs.close("edit");
         },
         (err)=>{
-          this.handleError(err);  
+          this.taskService.handleError(err);  
         }
       )
     }
     else{
-      console.log(task);
       this.taskService.addTask(task).subscribe(
         (suc)=>{
           console.log(suc);
-          this.router.navigate(['']);
+          this.id=undefined;
+          this.dialogRefs.close("edit");
           
         },
         (err)=>{
-          this.handleError(err);
+          this.taskService.handleError(err);
         }
       )
     }
   }
 
-  openDialog(element:Tasks) {
-    const dialogRef = this.dialog.open(DialoguesComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result===true){this.Delete(element.QuoteID.toString());}
-    });
+  openDialog() {
+    this.dialogRefs.close("Delete");
   }
   
+
+
   Delete(task:string|number){
-    console.log("delete");
     task=task.toString();
     console.log(task);
     this.taskService.DeleteTask(task).subscribe(
       (suc)=>{
         console.log(suc);
-        this.router.navigate(['']);
+        this.id=undefined;
+        this.dialogRefs.close("edit");
       },
       (err)=>{
-        this.handleError(err);
+        this.taskService.handleError(err);
       }
     )
   }
 
 
 
-  handleError(err:HttpErrorResponse){
-    if(err.status==401||err.status==403){
-      console.log(err);
-      this.router.navigate(['login']);
-    }
-    else{
-      this.router.navigate(['bad']);
-    }
-  }
+  
 }

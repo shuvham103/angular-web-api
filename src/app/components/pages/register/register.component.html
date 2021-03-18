@@ -1,0 +1,47 @@
+<form #signUp [formGroup]="mySignUpForm" (ngSubmit)="handleSubmit()">
+    <div class="form-group">
+        <div class="text-center font-weight-bold">
+            <label>
+                Email
+              </label>
+        </div>
+        <div>
+            <input formControlName="Email" class="form-control" type="email" id="Email" required>
+        </div>
+        <div>
+            <div *ngIf="f.Email.touched && f.Email.invalid" class="text-danger">*required</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="text-center font-weight-bold">
+            <label>
+                Password
+              </label>
+        </div>
+        <div>
+            <input formControlName="Password" class="form-control" type="password" id="password" required>
+        </div>
+        <div>
+            <div *ngIf="f.Password.touched && f.Password.invalid" class="text-danger">*required</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="text-center font-weight-bold">
+            <label>
+                Confirm Password
+              </label>
+        </div>
+        <div>
+            <input formControlName="ConfirmPassword" class="form-control" type="password" id="ConfirmPassword" required>
+        </div>
+        <div>
+            <div *ngIf="f.ConfirmPassword.touched && f.ConfirmPassword.value !=f.Password.value " class="text-danger">*Password must be same</div>
+        </div>
+    </div>
+    <div class="form-group text-center">
+    <button class="btn btn-primary" [disabled]="mySignUpForm.invalid || f.ConfirmPassword.value !=f.Password.value" type="submit">Submit</button>
+    </div>
+      
+</form>

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Errors } from '../models/Errors';
 import { TaskList } from '../models/TaskList';
 import { Task, Tasks } from '../models/Tasks';
 import { catchError , map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 var httpOptions={
   headers:new HttpHeaders({
@@ -16,14 +17,14 @@ var httpOptions={
   providedIn: 'root'
 })
 export class TaskService {
-task:Task={"Quote":{"QuoteID":"Will be assigned","QuoteType":"","ContactPerson":"","Task":"","DueDate": "" ,"TaskType":""}};
+task:Task={"Quote":{"QuoteID":"Will be assigned","QuoteType":"","ContactPerson":"","Task":"","DueDate": new Date() ,"TaskType":"", "Description":"", "Open":false}};
     
   tasksUrl:string ='https://localhost:44339/api/values/';
   addUrl:string='https://localhost:44339/add';
   editUrl:string='https://localhost:44339/update/';
   deleteUrl:string='https://localhost:44339/delete/';
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private router: Router) { }
 
   getTasks():Observable<TaskList[]>{
     this.SetToken();
@@ -31,7 +32,7 @@ task:Task={"Quote":{"QuoteID":"Will be assigned","QuoteType":"","ContactPerson":
  }
 
 
-  getTaskById(idss?:string|number):Observable<Task>
+  getTaskById(idss?:string|number|undefined):Observable<Task>
   {
     this.SetToken();
     if(idss===undefined)
@@ -46,10 +47,10 @@ task:Task={"Quote":{"QuoteID":"Will be assigned","QuoteType":"","ContactPerson":
     }
   }
 
-  addTask(task:Tasks)
+  addTask(tasks:Tasks)
   {
     this.SetToken();
-    return this.http.put<string>(this.addUrl ,task,httpOptions)
+    return this.http.put<string>(this.addUrl ,tasks,httpOptions)
   }
 
 
@@ -79,6 +80,16 @@ task:Task={"Quote":{"QuoteID":"Will be assigned","QuoteType":"","ContactPerson":
       return false;
     }
     return true;
+  }
+
+  handleError(err:any){
+    if(err.status==401||err.status==403){
+      console.log(err);
+      this.router.navigate(['login']);
+    }
+    else{
+      this.router.navigate(['bad']);
+    }
   }
 
 }

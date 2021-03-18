@@ -1,24 +1,58 @@
 <div class="col-12 col-lg-12 col-md-12">
   <div class="row" style="background-color: rgb(179, 174, 174);">
     <div class="col-md-2 text-center"><span class="h4" style="color: blue;">Tasks Details</span></div>
-    <div class="col-md-10 text-right"> <button class="btn btn-success" [routerLink]="'add'"><i class="fa fa-database"></i> Add new</button></div>
+    <div class="col-md-10 text-right"> <button class="btn btn-success" (click)="Add()"><i class="fa fa-database"></i> Add new</button></div>
   </div>
 </div>
 <div>
   <div class="row">
+    
+    <div class="col-md-5 col-lg-5 form-inline text-center">
+
+      <label for="paginator" style="padding-left: 5px;">Show &nbsp; </label> 
+      <select matInput [(ngModel)]="pageSize" (change)="reload()" class="form-control">
+        <option *ngFor="let item of pageSizeOptions">{{item}}</option>
+      </select>
+      <label> &nbsp; Entries</label>
+
+    </div>
+    <div class="col-md-2 col-lg-2 text-center form-inline">
+      <label for="sorting">Sort By: &nbsp;</label> 
+      <select class="form-control" [(ngModel)]="column" (change)="sorts()">
+        <option *ngFor="let item of displayedColumns">{{item}}</option>
+      </select>
+    </div>
+    <div class="col-md-2 col-lg-2 text-center form-inline">
+     <label for="descending">Descending: &nbsp;</label>
+     <input type="checkbox" value="checkbox" class="form-control"  (click)="change()">
+    </div>
+    <div class="col-md-2 col-lg-2 form-inline">
+      <label for="filter">Search: &nbsp;</label>
+        <input (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input class="form-control">
+    </div>
+  </div>
+  <hr>
+  <p>
+        
+  </p>
+  <p>
+        
+  </p>
+  <div class="row">
+    
     <div class="col-md-12 col-lg-12">
-      <mat-table [dataSource]="dataSource" style="width: 100%;">
+      <mat-table [dataSource]="dataSource" style="width: 100%;" matSort>
         <ng-container matColumnDef="QuoteType">
           <th class="th-center width" mat-header-cell *matHeaderCellDef> Quote Type </th>
           <td class="th-center width" mat-cell *matCellDef="let element"> {{element.QuoteType}} </td>
         </ng-container>
         <ng-container matColumnDef="QuoteID">
-          <th class="th-center width" mat-header-cell *matHeaderCellDef> Quote </th>
-          <td class="th-center width" mat-cell *matCellDef="let element"> <a [routerLink]="['edit',element.QuoteID]">{{element.QuoteID}}</a> </td>
+          <th class="th-center width" mat-header-cell *matHeaderCellDef> Quote #</th>
+          <td class="th-center width" mat-cell *matCellDef="let element"> <a [routerLink]="" (click)="Edit(element)">{{element.QuoteID}}</a> </td>
         </ng-container>
         <ng-container matColumnDef="Task">
-          <th class="th-center width" mat-header-cell *matHeaderCellDef> Tasks </th>
-          <td class="th-center width" mat-cell *matCellDef="let element"> {{element.Task}} </td>
+          <th class="th-center width-big" mat-header-cell *matHeaderCellDef> Tasks </th>
+          <td class="th-center width-big" mat-cell *matCellDef="let element"> {{element.Task}} </td>
         </ng-container>
         <ng-container matColumnDef="ContactPerson">
           <th class="th-center width" mat-header-cell *matHeaderCellDef> Contact Person </th>
@@ -36,13 +70,22 @@
         <ng-container matColumnDef="action">
           <th class="th-center width" mat-header-cell *matHeaderCellDef> Actions </th>
           <td class="th-center width" mat-cell *matCellDef="let element">  
-            <i class="fa fa-eye"></i> &nbsp; <i [routerLink]="['edit',element.QuoteID]" class="fa fa-edit"></i> &nbsp; 
+            <i (click)="View(element)" class="fa fa-eye"></i> &nbsp; <i (click)="Edit(element)" class="fa fa-edit"></i> &nbsp; 
             <i class="fa fa-trash" mat-button (click)="openDialog(element)"></i> </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns" [ngClass]="'top'"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </mat-table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+<div style="padding: 5px;">Showing: {{(pageIndex*pageSize)+1}} - {{(pageIndex+1)*pageSize}} of {{totalData}}</div>
+   <mat-paginator
+      (page)="handlePageEvent($event)"
+      [length]="length"
+      [pageSize]="pageSize"
+      [showFirstLastButtons]="showFirstLastButtons"
+      [pageSizeOptions]="pageSizeOptions"
+      [pageIndex]="pageIndex">
+  </mat-paginator>
+  
     </div>
   </div>
 </div>

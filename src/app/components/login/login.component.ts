@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { delay } from 'rxjs/operators';
 import { User } from 'src/app/models/User';
 import { LoginService } from 'src/app/service/login.service';
+import { TaskService } from 'src/app/service/task.service';
 import { RegisterComponent } from '../pages/register/register.component';
 
 
@@ -19,7 +21,7 @@ export class LoginComponent implements OnInit {
   username!: string;
   password!: string;
 
-  constructor(private router: Router,private logins:LoginService, public dialog: MatDialog, private _snackBar: MatSnackBar) { }
+  constructor(private router: Router,private logins:LoginService,private tasks:TaskService, public dialog: MatDialog, private _snackBar: MatSnackBar) { }
     ngOnInit() {
       window.localStorage.removeItem("TaskMgmt");
       this.showSpinner = false;
@@ -46,21 +48,10 @@ export class LoginComponent implements OnInit {
       subscribe(
         (suc)=>
         {
-          window.localStorage.setItem("TaskMgmt",suc["access_token"]) 
-          async function setTokens(){
-            window.localStorage.setItem("TaskMgmt",suc["access_token"])  
-            return "done";
-          }        
+          window.localStorage.setItem("TaskMgmt",suc["access_token"])       
           console.log(suc);
           this.showSpinner=false;
-          setTokens().then(
-            ()=>
-            {
-              this.router.navigate(['']);
-            }
-          )
-            
-          
+          this.router.navigate(['home']) 
         },
         (err)=>
         {

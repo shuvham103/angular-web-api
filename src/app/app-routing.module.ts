@@ -6,8 +6,8 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthGuardService } from './service/auth-guard.service';
 
 const routes: Routes = [
-  {path: '',component:BodyComponent,canActivate:[AuthGuardService]},
-  {path: 'login',component:LoginComponent},
+  {path: 'home',component:BodyComponent,canActivate:[AuthGuardService]},
+  {path: '',component:LoginComponent},
   {path:'**',component:ErrorComponent}
 ];
 

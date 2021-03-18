@@ -101,8 +101,9 @@
     <div class="text-right col-12">{{1000-descLength()}} left</div>
 </div>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close class="btn btn-danger" *ngIf="this.hidden" (click)="openDialog()">Delete</button> &nbsp;
-  <button mat-button mat-dialog-close class="btn btn-success" (click)="addEdit(tasks,buttonQuote)"><i class="fa fa-save"></i> {{buttonQuote}}</button> &nbsp;
-  <button mat-button mat-dialog-close class="btn btn-danger"><i class="fa fa-times"></i> Cancel</button>
+  <button mat-button mat-dialog-close class="btn btn-warning" *ngIf="this.hidden" (click)="openDialog()"><i class="fa fa-trash"></i>Delete</button> &nbsp;
+  <button mat-button mat-dialog-close class="btn btn-danger"><i class="fa fa-times"></i> Cancel</button> &nbsp;
+  <button mat-button mat-dialog-close class="btn btn-success" (click)="addEdit(tasks,buttonQuote)"><i class="fa fa-save"></i> {{buttonQuote}}</button> 
+  
 </mat-dialog-actions>
 </mat-card>

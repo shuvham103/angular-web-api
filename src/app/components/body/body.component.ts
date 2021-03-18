@@ -18,7 +18,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./body.component.css'],
 })
 
-export class BodyComponent implements OnInit, AfterViewInit
+export class BodyComponent implements OnInit
 {
 
   totalData!:number;
@@ -73,9 +73,7 @@ export class BodyComponent implements OnInit, AfterViewInit
     return task.length.toString();
   }
 
-  ngAfterViewInit(){
-    this.ngOnInit()
-  }
+  //{{endCount(config.currentPage, config.itemsPerPage, totalTasks)}
   ngOnInit() 
   {
     this.taskService.getTasks().pipe(
@@ -88,12 +86,12 @@ export class BodyComponent implements OnInit, AfterViewInit
         this.dataSource = new MatTableDataSource<TaskList>(this.tasks);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        
 
       },
     (err)=>
     {
-      console.log(err);
-      this.ngAfterViewInit();
+      console.log(err)
     },
     ()=>
     {

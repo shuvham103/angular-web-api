@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
     this.login.Register(register).subscribe(
       (suc)=>
       {
-        this.dialogRefs.close(suc)
+        this.dialogRefs.close("User Created. Please Login")
       },
       (err)=>
       {

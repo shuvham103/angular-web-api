@@ -36,7 +36,11 @@ export class LoginComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => 
         {
           this._snackBar.open(result, "ok", {
-            duration: 2000,
+            duration: 10000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right',
+            politeness:'assertive',
+            panelClass:['green']
           });
         });
     }
@@ -58,7 +62,11 @@ export class LoginComponent implements OnInit {
           console.log(err);
           this.showSpinner=false;
           this._snackBar.open(err.error.error_description, "ok", {
-            duration: 2000,
+            duration: 10000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            politeness:'assertive',
+            panelClass:['green']
           });
         },
         ()=>
